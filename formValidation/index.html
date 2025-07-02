@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation</title>
+    <script src="jQuery.js"></script>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 130%;
+        background-color: #436bba;
+      }
+
+      .wrapper {
+        background: linear-gradient(to top, #4b5420, #027168);
+        width: 550px;
+        margin: 0 auto;
+        padding: 80px;
+        z-index: 10;
+        border-radius: 10px;
+      }
+
+      p {
+        text-align: center;
+        font-family: cursive;
+        font-weight: bold;
+      }
+
+      label {
+        width: 200px;
+        float: left;
+        position: relative;
+        margin-top: 16px;
+      }
+
+      input {
+        margin-top: 4px;
+        width: 320px;
+        font-size: 25px;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 5px 5px 8px 5px;
+      }
+
+      .button:hover {
+        background-color: #436bba;
+        color: white;
+      }
+
+      .button {
+        width: 130px;
+        margin-left: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <p id="error_message"></p>
+      <p id="success_message"></p>
+      <div class="form-element">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Enter your email."
+        />
+      </div>
+      <div class="form-element">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your name."
+        />
+      </div>
+      <div class="form-element">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter password."
+        />
+      </div>
+      <div class="form-element">
+        <label for="cnf-password">Confirm Password</label>
+        <input
+          type="password"
+          id="cnf-password"
+          name="cnf-password"
+          placeholder="Enter password again."
+        />
+      </div>
+      <input type="submit" value="Submit" class="button" id="submit" />
+    </div>
+    <script>
+      emailValidator = () => {
+        var email = $("#email").val();
+        var regex = /^[a-zA-Z0-9]+([._-][a-zA-Z]+)*@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+      };
+
+      $("#submit").click(() => {
+        var error_message = "";
+        var success_message = "";
+
+        var password = $("#password").val();
+        var cnf_password = $("#cnf-password").val();
+
+        if (!emailValidator()) {
+          error_message += "Enter valid email address.";
+        } else if ($("#name").val() == "") {
+          error_message += "Name field is mandatory.";
+          $("#error_message").html(error_message);
+        } else if (password == "" && cnf_password == "") {
+          error_message += "please enter password.";
+        } else {
+          if (cnf_password == password) {
+            success_message += "User Registered Successfully.";
+          } else {
+            error_message += "password and confirm password doesn't matched.";
+          }
+        }
+
+        if (error_message != "") {
+          $("#error_message").css("color", "red");
+          $("#error_message").html(error_message);
+        }
+
+        if (success_message != "") {
+          $("#success_message").css("color", "white");
+          $("#error_message").css("display", "none");
+          $("#success_message").html(success_message);
+        }
+      });
+    </script>
+  </body>
+</html>
